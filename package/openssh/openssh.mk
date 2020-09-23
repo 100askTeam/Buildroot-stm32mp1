@@ -81,12 +81,16 @@ endif
 define OPENSSH_INSTALL_INIT_SYSTEMD
 	$(INSTALL) -D -m 644 package/openssh/sshd.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/sshd.service
+	$(SED) 's/\#PermitRootLogin prohibit-password/PermitRootLogin yes/' $(TARGET_DIR)/etc/ssh/sshd_config
+	$(SED) 's/\#PermitEmptyPasswords no/PermitEmptyPasswords yes/' $(TARGET_DIR)/etc/ssh/sshd_config
 	$(OPENSSH_INSTALL_SYSTEMD_SYSUSERS)
 endef
 
 define OPENSSH_INSTALL_INIT_SYSV
 	$(INSTALL) -D -m 755 package/openssh/S50sshd \
 		$(TARGET_DIR)/etc/init.d/S50sshd
+	$(SED) 's/\#PermitRootLogin prohibit-password/PermitRootLogin yes/' $(TARGET_DIR)/etc/ssh/sshd_config
+	$(SED) 's/\#PermitEmptyPasswords no/PermitEmptyPasswords yes/' $(TARGET_DIR)/etc/ssh/sshd_config
 endef
 
 define OPENSSH_INSTALL_SSH_COPY_ID
