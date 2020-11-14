@@ -24,15 +24,6 @@ EXT2_OPTS = \
 	-U "491f6117-415d-4f53-88c9-6e0de54deac6" \
 	$(EXT2_MKFS_OPTS)
 
-BOOTFS_SIZE = 16M
-BOOTFS_OPTS = \
-	-d $(TARGET_DIR)/boot \
-	-r $(BR2_TARGET_ROOTFS_EXT2_REV) \
-	-N $(BR2_TARGET_ROOTFS_EXT2_INODES) \
-	-m $(BR2_TARGET_ROOTFS_EXT2_RESBLKS) \
-	-L "$(EXT2_LABEL)" \
-	$(EXT2_MKFS_OPTS)
-
 ROOTFS_EXT2_DEPENDENCIES = host-e2fsprogs
 		  			 		  						  					  				 	   		  	  	 	  
 define ROOTFS_EXT2_CMD
@@ -44,8 +35,6 @@ define ROOTFS_EXT2_CMD
 	     exit $$ret; \
 	}
 
-	yes | $(HOST_DIR)/sbin/mkfs.ext$(BR2_TARGET_ROOTFS_EXT2_GEN) $(BOOTFS_OPTS) $(BINARIES_DIR)/bootfs.ext4  \
-		"$(BOOTFS_SIZE)" ;
 endef
 
 ifneq ($(BR2_TARGET_ROOTFS_EXT2_GEN),2)

@@ -175,11 +175,45 @@ define SWUPDATE_BUILD_CMDS
 endef
 
 define SWUPDATE_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0755 $(@D)/tools/swupdate-client $(TARGET_DIR)/usr/bin/swupdate-client
+	$(INSTALL) -D -m 0755 $(@D)/tools/swupdate-progress $(TARGET_DIR)/usr/bin/swupdate-progress
+	$(INSTALL) -D -m 0755 $(@D)/tools/swupdate-sysrestart  $(TARGET_DIR)/usr/bin/swupdate-sysrestart
 	$(INSTALL) -D -m 0755 $(@D)/swupdate $(TARGET_DIR)/usr/bin/swupdate
 	$(if $(BR2_PACKAGE_SWUPDATE_INSTALL_WEBSITE), \
 		mkdir -p $(TARGET_DIR)/var/www/swupdate; \
 		cp -dpfr $(@D)/examples/www/v2/* $(TARGET_DIR)/var/www/swupdate)
 endef
+
+define SWUPDATE_INSTALL_INIT_SYSV
+	$(INSTALL) -m 0755 -D  package/swupdate/S97swupdate \
+		$(TARGET_DIR)/etc/init.d/S97swupdate
+endef
+
+define SWUPDATE_INSTALL_INIT_SYSTEMD
+	mkdir -p $(TARGET_DIR)/usr/lib/swupdate; 
+	mkdir -p $(TARGET_DIR)/etc/swupdate/conf.d;
+	$(INSTALL) -D -m 644 package/swupdate/swupdate-usb.rules \
+		$(TARGET_DIR)/udev/rules.d/swupdate-usb.rules		
+	$(INSTALL) -m 0755 package/swupdate/swupdate.sh \
+		$(TARGET_DIR)/usr/bin/swupdate.sh	
+	$(INSTALL) -D -m 644 package/swupdate/tmpfiles-swupdate.conf \
+		$(TARGET_DIR)/etc/swupdate/conf.d/swupdate.conf
+	$(INSTALL)  -m 0755 package/swupdate/10-mongoose-args \
+		$(TARGET_DIR)/etc/swupdate/conf.d/10-mongoose-args
+	$(INSTALL)  -m 0755 package/swupdate/90-start-progress \
+		$(TARGET_DIR)/etc/swupdate/conf.d/90-start-progress
+		
+	$(INSTALL) -D -m 644 package/swupdate/swupdate.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/swupdate.service
+	$(INSTALL) -D -m 644 package/swupdate/swupdate.socket.tmpl \
+		$(TARGET_DIR)/usr/lib/systemd/system/swupdate.socket		
+	$(INSTALL) -D -m 644 package/swupdate/swupdate-usb@.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/swupdate-usb@.service		
+	$(INSTALL) -D -m 644 package/swupdate/swupdate-progress.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/swupdate-progress.service		
+endef
+
+
 
 # Checks to give errors that the user can understand
 # Must be before we call to kconfig-package
