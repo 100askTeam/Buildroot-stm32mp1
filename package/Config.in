@@ -2376,6 +2376,7 @@ menu "100ASK add  applications"
         source "package/myir-hmi-gui/Config.in"
         source "package/rs485read/Config.in"
         source "package/stm32mp1/Config.in"
+        source "package/adbd/Config.in"
 endmenu
 
 

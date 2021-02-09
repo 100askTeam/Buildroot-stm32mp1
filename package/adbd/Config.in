@@ -1,0 +1,6 @@
+config BR2_PACKAGE_ADBD
+    bool "adbd porting for Linux"
+    depends on !BR2_PACKAGE_LIBCUTILS && !BR2_PACKAGE_STM32MP1_USBOTG
+    select BR2_PACKAGE_ANDROID_TOOLS_ADBD
+    help
+      This is the adbd tools
