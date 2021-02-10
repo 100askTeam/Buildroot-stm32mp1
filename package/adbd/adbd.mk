@@ -3,7 +3,7 @@
 # 100ask stm32mp157 board  adbd  weidongshan@qq.com
 #
 ################################################################################
-ADBD_VERSION = 3e06ad6d822d0241511e7b454b1df5fabaab6049
+ADBD_VERSION = c830dd5e47ed754482af8f747509d23583c70c09
 ADBD_SITE = https://gitee.com/weidongshan/RootfsPackages.git
 ADBD_SITE_METHOD = git
 ADBD_LICENSE = GPL-3.0
