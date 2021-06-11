@@ -1,1 +1,0 @@
-exec swupdate  -k /etc/swupdate/swupdate-public.pem -w  ' --document-root /var/www/swupdate --p 8080'
